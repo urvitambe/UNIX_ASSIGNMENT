@@ -14,7 +14,7 @@ list directories recursively
 -> ls -R
 
 Sort the files by size with largest at the top
--> 
+-> ls --sort=size
 
 Sort the files by last time modified displaying the newest first.
 -> ls -lt
@@ -51,7 +51,7 @@ how do you change the currrently logged in user to another user?
 -> su
 
 Which command is used to leave a shell environment that you are currently logged in to?
--> 
+-> exit
 
 How do you reboot the system?
 -> sudo reboot
@@ -63,7 +63,11 @@ Display all the major running processes in the system
 -> ps -A
 
 Understand the output of command used in above question of displaying processes, explain the meaning of each column and what data it displays?
-->
+->After running the above command we can see following columns:
+     PID : process id is the id given to every process.
+     TTY : terminal typewriter where commands user are running.
+     TIME : cumulative CPU time, "[DD-]HH:MM:SS" format.  (alias cputime).
+     CMD : command name.
 
 Display the name of the system kernel
 -> uname 
@@ -116,35 +120,87 @@ Display all the commands entered so far, now, try to run a particular command fr
 NOTE:- TAB key is your friend when it comes to command completion and having long file and directory names autocompleted at the bash prompt for you. JUST BE LAZY AND USE TAB KEY FOR AUTO COMPLETION ;-)
 
 What are the different types of shell and where are they used and how do we use them?
+-> 
+There are different types of shell:
+
+      1) Bourne shell : It is regarded as the first UNIX shell ever, denoted as sh. It has a compact nature and high speeds of operation.It is also used as the default shell for all Solaris system administration scripts.The complete path-name for the Bourne shell is /bin/sh and /sbin/sh. By default, it uses the prompt # for the root user and $ for the non-root users.
+
+      2) GNU Bourne-Again shell : It was designed to be compatible with the Bourne shell. It incorporates useful features from different types of shells in Linux such as Korn shell and C shell.he complete path-name for the GNU Bourne-Again shell is /bin/bash. By default, it uses the prompt bash-VersionNumber# for the root user and bash-VersionNumber$ for the non-root users.
+
+      3) C shell: It is denoted as csh. It was developed to include useful programming features like in-built support for arithmetic operations and a syntax similar to the C programming language.Further, it incorporated command history. The prominent feature of a C shell is “aliases”.The complete path-name for the C shell is /bin/csh. By default, it uses the prompt hostname# for the root user and hostname% for the non-root users.
+
+      4) Korn shell : It is denoted as ksh.It offers string, array and function manipulation similar to the C programming language. It also supports scripts which were written for the C shell and it is faster. he complete path-name for the Korn shell is /bin/ksh. By default, it uses the prompt # for the root user and $ for the non-root users.
+
+      5) Z Shell :  zsh is a sh shell extension with tons of improvements for customization.Its features are: Generate filenames based on given conditions, Plugins and theming support, Index of built-in functions, Command completion etc.
 
 
 
 What is the difference between login shell and non-login shell?
+->1. Login shells
+A Login shell is started after a successful login, using /bin/login, by reading the /etc/passwd file. Login shell is the first process that executes under our user ID when we log in to a session. The login process tells the shell to behave as a login shell with a convention: passing argument 0, which is normally the name of the shell executable, with a “-” character prepended. For example, for Bash shell it will be -bash.
+2.  Non login shells
+A Non login shell is started by a program without a login. In this case, the program just passes the name of the shell executable. For example, for a Bash shell it will be simply bash.
 
 How do we start login shell and non-login shell?
+->1.login shell.
+Press the menu button in the top-right corner of the window and select Preferences.
+In the sidebar, select your current profile in the Profiles section.
+Select Command.
+Under the Command label, select Run command as a login shell.
+
+2.Non login shell.
+If the output is the name of our shell, prepended by a dash, then it is a login shell. For example -bash, -su etc. A Non login shell is started by a program without a login.
+
 
 What happens when you start a login shell (which files are read and used and Why)?
+-> .bash_profile is exexuted as an interactive login shell because .bash_profile to run commands that should run only once
 
 What happens when you start a non-login shell (Which files are read and used and Why)?
+-> .bashrc is executed for an interactive non-login shell because put the commands that should run every time you launch a new shell in the .bashrc file. 
+
 
 What are Shell Configuration Files, why do we need it?
+->Shell configuration files are executed automatically when you log in and. out of a shell. They initialize and configure a shell upon login and. perform cleanup operations upon logout.
 
 Explain the Order of file usage from the system/user's home directory when user logs in to the System.
-
+->
 What are Shell Variables, list major shell variables and what do they represent?
+->Several system defined variables are set for you when you log in these are called as Shell Variables
+
+ 
+Name    Meaning
+$HOME    Absolute pathname to your home directory.
+$PATH    List of directories to search for commands.
+$USER    Your user name.
+$SHELL    Absolute pathname of your login shell.
+$TERM    The type of your terminal.
 
 How we see all our env variables?
+-> Using printenv command.
 
 How we see all env variables in alphabical order?
+-> Using printenv|sort command.
 
 What Format does the env var and its values are stored?
+->
 
 How do you create your own varible?
-
+-> VAR=val123
+ echo "$VAR"
+ 
 How do you start a new bash shell?
-
+->
 Difference between Local/Shell variables to Global Variable
-
+->Parameter           				          	      Local                                    						   			                         Global
+Scope           			                               declared inside a function.                              						 		               declared outside the function.
+Value          			                               If it is not initialized, a garbage value is stored                     				   			     If it is not initialized zero is stored as default.
+Lifetime          		                                    It is created when the function starts execution and lost when the functions terminate.          			 	It is created before the program's global execution starts and lost when the program terminates.
+Data sharing      		        Data sharing is not possible as data of the local variable can be accessed by only one function.      		 	        Data sharing is possible as multiple functions can access the same global variable.
+Parameters       		        Parameters passing is required for local variables to access the value in other function          		 	 	Parameters passing is not necessary for a global variable as it is visible throughout the program
+Modification of variable value          When the value of the local variable is modified in one function, the changes are not visible in another function.   		When the value of the global variable is modified in one function changes are visible in the rest of the program.
+Accessed by        		        Local variables can be accessed with the help of statements, inside a function in which they are declared.  			You can access global variables by any statement in the program.
+Memory storage       			It is stored on the stack unless specified.                            						     		It is stored on a fixed location decided by the compiler.
+ 
 Making a variable accessible from other the shell in the system.
 -> 
 
@@ -153,34 +209,122 @@ Show the real life use case of exporting a variable
 Convert the above script file into a command, The file should run with "myappp" instead of "myapp.sh"
 
 What is Globbing? Explain in depth with examples?
-
+->The Bash shell feature that is used for matching or expanding specific types of patterns is called globbing. Globbing is mainly used to match filenames or searching for content in a file. Globbing uses wildcard characters to create the pattern
+eg:
+$ ls -l ????.txt
+$ ls -l *.*
+$ ls -l [start_char - end_char]*
 List all entries with extension ".sh"
 
 List all entries with numbers in it.
+->-find . -type f \( -name "*.sh" \)
 
 List all entries that starts with a character and ends with a number
+->- ls -al | grep "[0-9].*"
 
 List all entries that name length more than 5 characters
-
+->
 What is Quoting? and Why do we need it?
+->Quoting is used to remove the special meaning of certain characters or words to the shell. Quoting can be used to disable special treatment for special characters, to prevent reserved words from being recognized as such, and to prevent parameter expansion.
+ 
 
 Write few(minimum 3) unique examples that shows, how a particular problem is solved using Quoting.
+->eg:
+$ ls -l ????.txt
+$ ls -l *.*
+$ ls -l [start_char - end_char]*
 
 How do you find a particular files/directories based on a particular search criteria?
 HINT:- look for commands -> locate, find and whereis
 
+
 Write major difference between locate, find and whereis?
+-> The find program searches a directory tree to find a file or group of files. It traverses the directory tree and reports all occurrences of a file matching the user's specifications. The find program includes very powerful searching capability.
+The locate program scans one or more databases of filenames and displays any matches. This can be used as a very fast find command if the file was present during the last file name database update.
+Whereis command simply returns the location of the executables, the man pages and the sources of a program.
 
 How Globbing is different from locate, find and whereis?
+->File globbing is a feature provided by the UNIX/Linux shell to represent multiple filenames by using special characters called wildcards with a single file name. whereas we cannot use locate,find and whereis for the same.
 
 Explain the Linux File System.
+-> Linux file system is generally a built-in layer of a Linux operating system used to handle the data management of the storage. It helps to arrange the file on the disk storage.
+ It manages the file name, file size, creation date, and much more information about a file.The Linux file system contains the following sections:
+The root directory (/)
+A specific data storage format (EXT3, EXT4, BTRFS, XFS and so on)
+A partition or logical volume having a particular file system.
 
 Explain absolute and Relative Paths
+->An absolute path is defined as the specifying the location of a file or directory from the root directory(/). 
+To write an absolute path-name:
+Start at the root directory ( / ) and work down.
+Write a slash ( / ) after every directory name (last one is optional)
+eg:
+cat /home/kt/abc.sql
+
+-Changing directory with relative path concept :
+$pwd
+/home/kt
+$cd abc                   
+$pwd
+/home/kt/abc         
+	
+- Relative path is defined as the path related to the present working directly(pwd). It starts at your current directory and never starts with a / .
+-Changing directory with absolute path concept:
+$pwd
+/home/kt
+$cd /home/kt/abc
+$pwd
+/home/kt/ab
 
 What are the different ways of creating a File in linux System? Write an example of each and the difference between them.
+->There are 5 different ways of creating a file in linux system:
+1)cat >fname :This command creates a new file file1 (in write mode) if it doesn’t exist in the present working directory. If any file with file name file1 exists in the current directory then it is overwritten.
+2)touch fname: This command is used to create an empty file (or multiple empty files) and its main purpose is to change or update the time-stamp of a file.
+3)vi fname: This command is used to creates a new file and opens it on the vi text editor to edit the textual content of the file.
+4) nano command: This command creates a new file (in write mode) on the nano text editor. It may/may not be found in all distributions of LINUX. We can create as well as edit files.
+5)gedit : This command creates a new file (in write mode) on the gedit(GNOME text editor) text editor.
+6)mov fname1 fname2: This command is use to create new files with the contents of some other file on the system.
+ 
 
 In how many ways we can delete the files from linux system? write an example of each and teh difference between them.
+->1. To remove a single file permanently, we can use unlink command.
+$ unlink {file-name}
+
+2. rm command, which supports removing one or more files simultaneously.
+$ rm {file-name}
+
+3. rm prompts you to confirm file deletion for files that are write-protected else it proceeds to directly remove the file. To make rm always prompt before deleting a file, use -i flag:
+$ rm -i {file-name}
+
+4. rm command deletes without displaying any messages on the screen. To list what rm command is actually doing, use rm with -v flag.
+$ rm -v {file-name}
+
+5. To remove write-protected files without prompting for confirmation, use -f flag.
+$ rm -f {file-name}
+
+6. Multiple files can be removed by specifying multiple filenames to rm as arguments.
+$ rm {file-name-1} {file-name-2} {file-name-3} ... {file-name-N} 
+
+7. rm also supports regular expressions. If you want to delete all files named file-name-*, you can use:
+$ rm file-name-*
+
+8. We can also specify multiple files using regular expressions. If we want to delete three files that match file-name-1, file-name-2 and file-name-3, we can use something like:
+$ rm file-name-[123]
 
 Archiving files using linux command, write a command to archive set of files from linux commands.
-
+->Create tar archives:
+	
+Plain tar archive: tar -cf archive.tar file1 file2 file3
+	
+Gzipped tar archive: tar -czf archive.tgz file1 file2 file3
+	
+Bzipped tar archive: tar -cjf archive.tbz file1 file2 file3
+ 
 Extract the archived files from the above step.
+->Extract tar archives:
+	
+Plain tar archive: tar -xf archive.tar
+	
+Gzipped tar archive: tar -xzf archive.tgz
+	
+Bzipped tar archive: tar -xjf archive.tbz
